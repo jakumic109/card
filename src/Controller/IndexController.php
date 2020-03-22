@@ -29,29 +29,31 @@ class IndexController extends AbstractController{
         if($form->isSubmitted() && $form->isValid()){
             $uploadedFile = $form->get('file')->getData();
             $contentFile = file_get_contents($uploadedFile);
-            $allFileRows = explode("\r\n",$contentFile);
+            $allFileRows = explode("\n",$contentFile);
             $p1win = 0;
             $p2win = 0;
             $draw = 0;
             foreach($allFileRows as $fileRow){
-                $rowCards = explode(" ",$fileRow);
-                $handP1 = new HandClass();
-                $handP2 = new HandClass();
-                foreach($rowCards as $keyCard => $valueCard){
-                    if($keyCard < 5){
-                        $handP1->addCard($valueCard);
-                    }else{
-                        $handP2->addCard($valueCard);
+                if($fileRow != ''){
+                    $rowCards = explode(" ",$fileRow);
+                    $handP1 = new HandClass();
+                    $handP2 = new HandClass();
+                    foreach($rowCards as $keyCard => $valueCard){
+                        if($keyCard < 5){
+                            $handP1->addCard($valueCard);
+                        }else{
+                            $handP2->addCard($valueCard);
+                        }
                     }
-                }
-                $p1result = $handP1->getCardsRank();
-                $p2result = $handP2->getCardsRank();
-                if($p1result < $p2result){
-                    ++$p1win;
-                }elseif($p2result < $p1result){
-                    ++$p2win;
-                }else{
-                    ++$draw;
+                    $p1result = $handP1->getCardsRank();
+                    $p2result = $handP2->getCardsRank();
+                    if($p1result < $p2result){
+                        ++$p1win;
+                    }elseif($p2result < $p1result){
+                        ++$p2win;
+                    }else{
+                        ++$draw;
+                    }
                 }
             }
             
