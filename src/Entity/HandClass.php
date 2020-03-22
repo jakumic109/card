@@ -14,7 +14,6 @@ namespace App\Entity;
  */
 class HandClass {
     
-    private $cards;
     const ORDER_CARDS = [
         0 => '2',
         1 => '3',
@@ -31,8 +30,14 @@ class HandClass {
         12 => 'A'
     ];
     
-    public function __construct() {
+    private $fileId;
+    private $cards;
+    private $cardsRank;
+    private $rankName;
+    
+    public function __construct($fileId = null) {
         $this->cards = [];
+        $this->fileId = $fileId;
     }
 
 
@@ -44,8 +49,12 @@ class HandClass {
         ];
         array_push($this->cards, $cardValueAssociatedKeys);
         if(count($this->cards) == 5){
-            $this->cards = $this->_sortCardsBySymbols();
+            $this->_fillObjectValues();
         }
+    }
+    
+    public function getId(){
+        return $this->id;
     }
     
     public function getAllCards(){
@@ -53,9 +62,18 @@ class HandClass {
     }
     
     public function getCardsRank(){
+        return $this->cardsRank;
+    }
+    
+    public function getRankName(){
+        return $this->rankName;
+    }
+    
+    public function _fillObjectValues(){
         $result = 0;
-        $resultName = $this->_checkCardsRankName();
-        switch($resultName){
+        $this->cards = $this->_sortCardsBySymbols();
+        $this->rankName = $this->_checkCardsRankName();
+        switch($this->rankName){
             case 'royalFlush':
                 $result = 1;
                 break;
@@ -88,7 +106,7 @@ class HandClass {
                 break;
         }
         
-        return $result;
+        $this->cardsRank = $result;
     }
     
     private function _sortCardsBySymbols(){

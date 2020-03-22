@@ -11,6 +11,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\HandClass;
+use App\Entity\FileClass;
 use App\Form\GetFileForm;
 
 #use Doctrine\DBAL\Driver\Connection;
@@ -29,6 +30,9 @@ class IndexController extends AbstractController{
         if($form->isSubmitted() && $form->isValid()){
             $uploadedFile = $form->get('file')->getData();
             $contentFile = file_get_contents($uploadedFile);
+            $fileObject = new FileClass($uploadedFile->getClientOriginalName(),$contentFile);
+            $fileRepo = $this->getDoctrine()->getRepository(FileClass::class);
+            $fileId = $fileRepo->insertFile($fileObject);
             $allFileRows = explode("\n",$contentFile);
             $p1win = 0;
             $p2win = 0;
@@ -36,8 +40,8 @@ class IndexController extends AbstractController{
             foreach($allFileRows as $fileRow){
                 if($fileRow != ''){
                     $rowCards = explode(" ",$fileRow);
-                    $handP1 = new HandClass();
-                    $handP2 = new HandClass();
+                    $handP1 = new HandClass($fileId);
+                    $handP2 = new HandClass($fileId);
                     foreach($rowCards as $keyCard => $valueCard){
                         if($keyCard < 5){
                             $handP1->addCard($valueCard);
@@ -45,11 +49,9 @@ class IndexController extends AbstractController{
                             $handP2->addCard($valueCard);
                         }
                     }
-                    $p1result = $handP1->getCardsRank();
-                    $p2result = $handP2->getCardsRank();
-                    if($p1result < $p2result){
+                    if($handP1->getCardsRank() < $handP2->getCardsRank()){
                         ++$p1win;
-                    }elseif($p2result < $p1result){
+                    }elseif($handP2->getCardsRank() < $handP1->getCardsRank()){
                         ++$p2win;
                     }else{
                         ++$draw;
