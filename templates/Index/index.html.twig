@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {{form(form)}}
+    {% if winsResult is not empty %}
+        <table style="">
+            <tr>
+                <td>P1 wins</td>
+                <td>{{winsResult['p1win']}}</td>
+            </tr>
+            <tr>
+                <td>P2 wins</td>
+                <td>{{winsResult['p2win']}}</td>
+            </tr>
+            <tr>
+                <td>Draws</td>
+                <td>{{winsResult['draw']}}</td>
+            </tr>
+        </table>
+    {%endif%}
+{% endblock %}
