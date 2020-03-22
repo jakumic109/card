@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\HandClass;
 use App\Form\GetFileForm;
 
+#use Doctrine\DBAL\Driver\Connection;
+
 /**
  * Description of IndexController
  *
@@ -51,7 +53,6 @@ class IndexController extends AbstractController{
                 }else{
                     ++$draw;
                 }
-                
             }
             
             $winsResult = [

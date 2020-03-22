@@ -1,5 +1,8 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    <div class="logoutBar">
+        <a  href="/logout">Logout</a>
+    </div>
     {{form(form)}}
     {% if winsResult is not empty %}
         <table style="">

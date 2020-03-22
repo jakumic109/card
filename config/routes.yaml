@@ -5,3 +5,12 @@
 main_index:
     path: /
     controller: App\Controller\IndexController::index
+    
+main_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    
+main_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+    
