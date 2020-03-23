@@ -30,9 +30,19 @@ class GetFileForm extends AbstractType{
                     'maxSize' => '2014k',
                     'mimeTypesMessage' => 'Please upload a valid txt file'
                 ])
+            ],
+            'attr' => [
+                'class' => 'custom-file-input'
+            ],
+            'label_attr' => [
+                'class' => 'custom-file-label',
+                'required' => false
             ]
         ])->add('add', SubmitType::class,[
-            'label' => 'Upload file'
+            'label' => 'Check results!',
+            'attr' => [
+                'class' => 'btn btn-outline-secondary'
+            ]
         ]);
     }
 }
