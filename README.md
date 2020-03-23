@@ -1,7 +1,7 @@
-Check cards hand
+Check cards
 ========================
 
-All files upload on server: http://properway.eu/
+All files are uploaded on server: http://properway.eu/
 
 user: guest
 pass: simplePassword
